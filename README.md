@@ -250,6 +250,21 @@ sudo apt-get install trivy -y
   ```bash
   kubectl get svc -n argocd
   ```
+  - <b>Use a LoadBalancer (Optional)</b>
+  - <b>If you're using a cloud provider (e.g., AWS, GCP), you can change the argocd-server service to use a LoadBalancer:</b>
+   ```bash
+  kubectl patch svc argocd-server -n argocd --type='json' -p '[{"op":"replace","path":"/spec/type","value":"LoadBalancer"}]'
+  ```
+  - <b>Automate Port Forwarding (Temporary Workaround)</b>
+  ```bash
+  kubectl port-forward svc/argocd-server -n argocd 31001:443 &
+  ```
+  - <b>Debugging the ArgoCD</b>
+  ```bash
+  kubectl get endpoints -n argocd
+  kubectl describe svc argocd-server -n argocd
+  curl -vk https://127.0.0.1:31001
+  ```
   - <b> Check the port where ArgoCD server is running and expose it on security groups of a worker node</b>
   ![image](https://github.com/user-attachments/assets/a2932e03-ebc7-42a6-9132-82638152197f)
   - <b>Access it on browser, click on advance and proceed with</b>
